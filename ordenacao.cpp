@@ -9,7 +9,9 @@ TipoVetor* inicializa_vetor() {
     return vetor;
 }
 
-void bubble_sort(TipoVetor* vetor, int n) {
+void bubble_sort(TipoVetor* vetor, int n) { // OK!
+    int comparisions = 0, switches = 0;
+
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n - i - 1; j++) {
             if(vetor->dados[j].numero > vetor->dados[j+1].numero) {
@@ -17,13 +19,26 @@ void bubble_sort(TipoVetor* vetor, int n) {
                 vetor->dados[j] = vetor->dados[j+1];
                 vetor->dados[j+1] = aux;
 
-                print_vector(vetor, 's', n);
+                switches++;
             }
+
+            cout << "Vetor: ";
+            print_vector(vetor, n);
+
+            comparisions++;
+            cout << "Numero de comparacoes: " << comparisions << endl;
+
+            cout << "Numero de trocas: " << switches << endl << endl;
+
         }
     }
+
+
 }
 
 void heapify(TipoVetor* vetor, int n, int i) {
+    int comparisions = 0, switches = 0;
+
     int maior = i; // assume que maior é o pai
     int e = 2 * i + 1;
     int d = 2 * i + 2;
@@ -32,18 +47,32 @@ void heapify(TipoVetor* vetor, int n, int i) {
         maior = e; // maior se torna o esquerdo
     }
 
+    comparisions++;
+
     if((d < n) && (vetor->dados[d].numero > vetor->dados[maior].numero)) {
         maior = d; // maior se torna direito
     }
 
-    print_vector(vetor ,'s', n);
+    comparisions++;
+
+    cout << "Vetor: ";
+    print_vector(vetor, n);
+
+    cout << "Numero de comparacoes: " << comparisions << endl;
 
     if(maior != i) { // se o maior não for o pai, troca
         TipoDado aux = vetor->dados[i];
         vetor->dados[i] = vetor->dados[maior];
         vetor->dados[maior] = aux;
 
+        switches++;
+
+        cout << "Numero de trocas: " << switches << endl << endl;
+
         heapify(vetor, n, maior);
+
+    } else {
+        cout << "Numero de trocas: " << switches << endl << endl;
     }
 }
 
@@ -59,11 +88,11 @@ void build_heap(TipoVetor* vetor, int n) {
 
         heapify(vetor, i, 0);
     }
-
-    print_vector(vetor, 's', n);
 }
 
 void counting_sort(TipoVetor* vetor, int n) {
+    int comparisions = 0, switches = 0;
+
     int maior = vetor->dados[0].numero;
     for(int i = 1; i < n; i++) {
         if(vetor->dados[i].numero > maior) {
@@ -77,23 +106,26 @@ void counting_sort(TipoVetor* vetor, int n) {
         vet_aux[vetor->dados[i].numero]++;
     }
 
-    print_vector(vetor, 's', n);
-
     cout << "Vetor de frequencias: ";
     for(int i = 0; i <= maior; i++) {
         cout << vet_aux[i] << " ";
     }
-    cout << endl << endl;;
 
-    int index = 0;
+    cout << endl << endl;
+
+    int j = 0;
     for(int i = 0; i <= maior; i++) {
         while(vet_aux[i] > 0) {
-            vetor->dados[index].numero = i;
-            index++;
+            vetor->dados[j].numero = i;
+            j++;
             vet_aux[i]--;
-            print_vector(vetor, 's', n);
+
+            cout << "Vetor: ";
+            print_vector(vetor, n);
+
+            switches++;
+            cout << "Numero de trocas: " << switches << endl << endl;
         }
-        cout << endl << endl;
     }
 
     free(vet_aux);
@@ -113,13 +145,11 @@ void generate_random(TipoVetor* vetor, int n, int modo_ord) {
     }
 }
 
-void print_vector(TipoVetor* vetor, char print, int n) {
-    if(print == 's' || print == 'S') {
-        for(int i = 0; i < n; i++) {
-            cout << vetor->dados[i].numero << " ";
-        }
-        cout << endl << endl;
+void print_vector(TipoVetor* vetor, int n) {
+    for(int i = 0; i < n; i++) {
+        cout << vetor->dados[i].numero << " ";
     }
+    cout << endl << endl;
 }
 
 int turn_quant_elem(int quant_elem) {

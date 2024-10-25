@@ -14,5 +14,5 @@ void heapify(TipoVetor*, int);
 void build_heap(TipoVetor*, int);
 void counting_sort(TipoVetor*, int);
 void generate_random(TipoVetor*, int, int);
-void print_vector(TipoVetor*, char, int);
+void print_vector(TipoVetor*, int);
 int turn_quant_elem(int);

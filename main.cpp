@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 #include "ordenacao.h"
 
 using namespace std;
@@ -33,7 +34,10 @@ int main() {
     cin >> print;
     cout << endl;
 
-    print_vector(vetor, print, turned_quant);
+    if(print == 's' || print == 'S') {
+        cout << "Vetor antes da ordenacao: ";
+        print_vector(vetor, turned_quant);
+    }
 
     cout << "(digite 1 para bubble sort)" << endl;
     cout << "(digite 2 para heap sort)" << endl;
@@ -41,6 +45,8 @@ int main() {
     cout << "Digite um valor dentre as opcoes: ";
     cin >> algoritmo;
     cout << endl;
+
+    auto inicio = chrono::high_resolution_clock::now();
 
     switch(algoritmo) {
     case 1: // bubble sort
@@ -54,5 +60,15 @@ int main() {
         break;
     }
 
+    auto fim = chrono::high_resolution_clock::now();
+
+    chrono::duration<double> duracao = fim - inicio;
+
+    cout << "Vetor ordenado: ";
+    print_vector(vetor, turned_quant);
+
+    cout << "A funcao levou " << duracao.count() << " segundos para executar" << endl;
+
     return 0;
+    
 }
